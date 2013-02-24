@@ -32,7 +32,7 @@ public class GameActivity extends Activity
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        
         mGLSurfaceView = new CCGLSurfaceView(this);
         
         this.setContentView(mGLSurfaceView);
@@ -66,6 +66,7 @@ public class GameActivity extends Activity
         
         // Make the Scene active
         CCDirector.sharedDirector().runWithScene(scene);
+        
     }
     
     @Override
