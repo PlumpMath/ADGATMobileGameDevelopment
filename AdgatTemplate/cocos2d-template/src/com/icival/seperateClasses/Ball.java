@@ -7,6 +7,8 @@ import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
 
+import com.icival.mobilegamedevelopment.Constants;
+
 public class Ball extends CCNode
 {
 	/** Properties **********************************************************************************/
@@ -37,17 +39,21 @@ public class Ball extends CCNode
 	// public
 	public void update(float p_deltaTime)
 	{
+		// comment this for gravity
 		// dont check for update if the g_direction is zero
-		if( CGPoint.equalToPoint(g_direction, CGPoint.zero()) )
-		{
-			return;
-		}
+		//if( CGPoint.equalToPoint(g_direction, CGPoint.zero()) )
+		//{
+		//	return;
+		//}
+		
+		// update gravity on the velocity vector of your object
+		g_direction.y -= Constants.GRAVITY/8 * p_deltaTime;
 		
 		// compute for new position
 		CGPoint newPosition = this.getPosition();
 				newPosition.x += g_direction.x * p_deltaTime;
 				newPosition.y += g_direction.y * p_deltaTime;
-				
+			
 		// check for boundery
 		this.limitBorders(newPosition);
 				
@@ -96,7 +102,7 @@ public class Ball extends CCNode
 		{
 			p_newPosition.x = (0 + g_radius);
 			g_prevTouch = CGPoint.zero();
-			g_direction = CGPoint.zero();
+			g_direction.x = 0.0f;
 		}
 		
 		// limit right x
@@ -104,7 +110,7 @@ public class Ball extends CCNode
 		{
 			p_newPosition.x = (m_screenSize.width - g_radius);
 			g_prevTouch = CGPoint.zero();
-			g_direction = CGPoint.zero();
+			g_direction.x = 0.0f;
 		}
 		
 		// limit top y
@@ -112,7 +118,7 @@ public class Ball extends CCNode
 		{
 			p_newPosition.y = (0 + g_radius);
 			g_prevTouch = CGPoint.zero();
-			g_direction = CGPoint.zero();
+			g_direction.y = 0.0f;
 		}
 		
 		// limit bottom y
@@ -120,7 +126,7 @@ public class Ball extends CCNode
 		{
 			p_newPosition.y = (m_screenSize.height - g_radius);
 			g_prevTouch = CGPoint.zero();
-			g_direction = CGPoint.zero();
+			g_direction.y = 0.0f;
 		}
 	}
 }

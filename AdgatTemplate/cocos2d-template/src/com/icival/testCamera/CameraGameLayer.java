@@ -1,4 +1,4 @@
-package com.icival.seperateClasses;
+package com.icival.testCamera;
 
 import java.util.ArrayList;
 
@@ -10,13 +10,12 @@ import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
 
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.icival.mobilegamedevelopment.GameLayer;
+import com.icival.seperateClasses.Ball;
 
-public class SeperateClassesGameLayer extends GameLayer
+public class CameraGameLayer extends GameLayer
 {
 	/** Properties **********************************************************************************/
 	private Ball m_ball1;
@@ -27,7 +26,7 @@ public class SeperateClassesGameLayer extends GameLayer
 	private CCSprite m_background;
 	
 	/** Constructor *********************************************************************************/
-	public SeperateClassesGameLayer()
+	public CameraGameLayer()
 	{	
 		// device size
 		m_screenSize = CCDirector.sharedDirector().displaySize();

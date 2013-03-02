@@ -15,6 +15,7 @@ import android.util.Log;
 import com.icival.movementActivity.MovementGameScreen;
 import com.icival.seperateClasses.SeperateClassesGameScreen;
 import com.icival.testAccelerometerActivity.AccelerometerGameScreen;
+import com.icival.testCamera.CameraGameScreen;
 import com.icival.testCollisionDetectionActivity.CollisionGameScreen;
 import com.icival.testDataCommunicationActivity.DataComGameScreen;
 import com.icival.touchActivity.TouchGameScreen;
@@ -36,9 +37,10 @@ public class Activities extends CCScene
 		CCMenuItemFont buttonDataCom = CCMenuItemFont.item("Data Com", this, "gotoDataComSample");
 		CCMenuItemFont buttonCollision = CCMenuItemFont.item("Collision Activity", this, "gotoCollisionSample");
 		CCMenuItemFont buttonSeperateClasses = CCMenuItemFont.item("Seperate Classes", this, "gotoSeperateClasses");
+		CCMenuItemFont buttonCamera = CCMenuItemFont.item("Camera", this, "gotoCameraSample");
 		
 		// display your buttons
-		m_uiMenu = CCMenu.menu(buttonUpdate, buttonTouch, buttonAccel, buttonDataCom, buttonCollision, buttonSeperateClasses);
+		m_uiMenu = CCMenu.menu(buttonUpdate, buttonTouch, buttonAccel, buttonDataCom, buttonSeperateClasses, buttonCamera);
 		m_uiMenu.alignItemsVertically(10);
 		this.addChild(m_uiMenu);
 	}
@@ -83,6 +85,13 @@ public class Activities extends CCScene
 	{
 		m_uiMenu.setVisible(false);
 		CCScene scene = new SeperateClassesGameScreen();
+		CCDirector.sharedDirector().replaceScene(scene);
+	}
+	
+	public void gotoCameraSample()
+	{
+		m_uiMenu.setVisible(false);
+		CCScene scene = new CameraGameScreen();
 		CCDirector.sharedDirector().replaceScene(scene);
 	}
 }

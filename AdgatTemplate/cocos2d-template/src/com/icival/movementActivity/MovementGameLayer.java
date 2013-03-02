@@ -22,6 +22,7 @@ public class MovementGameLayer extends GameLayer
 	{	
 		// device size
 		m_screenSize = CCDirector.sharedDirector().displaySize();
+		CGSize winSize = CCDirector.sharedDirector().winSize();
 		
 		// set game objects
 		m_ball = CCSprite.sprite("ball.jpg");
@@ -30,6 +31,8 @@ public class MovementGameLayer extends GameLayer
 		
 		// setup game loop
 		this.scheduleUpdate();
+		
+		
 	}
 	
 	/** Methods *************************************************************************************/
