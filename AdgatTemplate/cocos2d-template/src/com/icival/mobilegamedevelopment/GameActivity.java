@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import com.icival.mobilegamedevelopment.R;
 import com.icival.movementActivity.MovementGameScreen;
+import com.icival.pushergame.PusherGameScreen;
 import com.icival.testAccelerometerActivity.AccelerometerGameScreen;
 import com.icival.touchActivity.TouchGameScreen;
 
@@ -62,7 +63,8 @@ public class GameActivity extends Activity
         //CCScene scene = new MovementGameScreen();
         //CCScene scene = new TouchGameScreen();
         //CCScene scene = new AccelerometerGameScreen();
-        CCScene scene = new Activities();
+        //CCScene scene = new Activities();
+        CCScene scene = new PusherGameScreen();
         
         // Make the Scene active
         CCDirector.sharedDirector().runWithScene(scene);

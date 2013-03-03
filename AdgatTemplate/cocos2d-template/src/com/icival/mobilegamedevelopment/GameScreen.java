@@ -1,12 +1,14 @@
 package com.icival.mobilegamedevelopment;
 
 import org.cocos2d.layers.CCScene;
+import org.cocos2d.nodes.CCSprite;
 
 public class GameScreen extends CCScene
 {
 	/** Properties **********************************************************************************/
 	protected UILayer m_uiLayer;
 	protected GameLayer m_gameLayer;
+	protected CCSprite m_mainBg;
 	
 	/** Constructor *********************************************************************************/
 	public GameScreen()

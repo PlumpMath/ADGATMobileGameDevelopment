@@ -33,7 +33,7 @@ public class SeperateClassesGameLayer extends GameLayer
 		m_screenSize = CCDirector.sharedDirector().displaySize();
 		
 		// create bg
-		m_background = CCSprite.sprite("background.jpg");
+		m_background = CCSprite.sprite("xBy320.jpg");
 		m_background.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
 		m_background.setPosition(CGPoint.ccp(m_screenSize.width/2, m_screenSize.height/2));
 		this.addChild(m_background);

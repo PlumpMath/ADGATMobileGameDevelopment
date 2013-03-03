@@ -9,10 +9,12 @@ import org.cocos2d.menus.CCMenuItemImage;
 import org.cocos2d.menus.CCMenuItemSprite;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
+import org.cocos2d.types.CGSize;
 
 import android.util.Log;
 
 import com.icival.movementActivity.MovementGameScreen;
+import com.icival.pushergame.PusherGameScreen;
 import com.icival.seperateClasses.SeperateClassesGameScreen;
 import com.icival.testAccelerometerActivity.AccelerometerGameScreen;
 import com.icival.testCamera.CameraGameScreen;
@@ -37,12 +39,18 @@ public class Activities extends CCScene
 		CCMenuItemFont buttonDataCom = CCMenuItemFont.item("Data Com", this, "gotoDataComSample");
 		CCMenuItemFont buttonCollision = CCMenuItemFont.item("Collision Activity", this, "gotoCollisionSample");
 		CCMenuItemFont buttonSeperateClasses = CCMenuItemFont.item("Seperate Classes", this, "gotoSeperateClasses");
-		CCMenuItemFont buttonCamera = CCMenuItemFont.item("Camera", this, "gotoCameraSample");
+		CCMenuItemFont buttonCamera = CCMenuItemFont.item("Pusher Game", this, "gotoPusherGame");  
 		
 		// display your buttons
 		m_uiMenu = CCMenu.menu(buttonUpdate, buttonTouch, buttonAccel, buttonDataCom, buttonSeperateClasses, buttonCamera);
 		m_uiMenu.alignItemsVertically(10);
 		this.addChild(m_uiMenu);
+		
+		// screen size
+		CGSize displaySize = CCDirector.sharedDirector().displaySize();
+		CGSize winSize = CCDirector.sharedDirector().winSize();
+		Log.i("DISPLAY_SIZE", "DISPLAY_SIZE "+displaySize.width+" "+displaySize.height);
+		Log.i("WIN_SIZE", "WIN_SIZE "+winSize.width+" "+winSize.height);
 	}
 	
 	/** Methods *************************************************************************************/
@@ -88,10 +96,10 @@ public class Activities extends CCScene
 		CCDirector.sharedDirector().replaceScene(scene);
 	}
 	
-	public void gotoCameraSample()
+	public void gotoPusherGame()
 	{
 		m_uiMenu.setVisible(false);
-		CCScene scene = new CameraGameScreen();
+		CCScene scene = new PusherGameScreen();
 		CCDirector.sharedDirector().replaceScene(scene);
 	}
 }
