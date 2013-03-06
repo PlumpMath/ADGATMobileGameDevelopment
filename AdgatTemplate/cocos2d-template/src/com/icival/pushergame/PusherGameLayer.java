@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import com.icival.mobilegamedevelopment.GameLayer;
 import com.icival.seperateClasses.Ball;
 import com.icival.mobilegamedevelopment.Constants;
+import com.icival.pushergame.Camera;
 
 public class PusherGameLayer extends GameLayer
 {
@@ -23,6 +24,7 @@ public class PusherGameLayer extends GameLayer
 	private ArrayList<StaticCircle> m_staticObjects;
 	private CGSize m_screenSize;
 	private CCSprite m_background;
+	private Camera m_camera;
 	
 	/** Constructor *********************************************************************************/
 	public PusherGameLayer()
@@ -37,9 +39,16 @@ public class PusherGameLayer extends GameLayer
 		//this.addChild(m_background);
 		
 		// create hero
-		m_hero = new PusherHero("ball.jpg");
+		m_hero = new PusherHero("ball.png");
 		m_hero.setPosition(CGPoint.ccp(m_screenSize.width * 0.5f, m_screenSize.height * 0.5f));
 		this.addChild(m_hero);
+		
+		// create camera
+		m_camera = new Camera();
+		m_camera.setTargetNode(m_hero);
+		m_camera.setParentNode(this);
+		//m_camera.setScreenPoints(CGPoint.ccp(100, 100));
+		m_camera.run();
 		
 		// create obstacles
 		this.createObstacles();
@@ -71,7 +80,7 @@ public class PusherGameLayer extends GameLayer
 		}
 		
 		// update camera
-		this.updateCamera(p_deltaTime);
+		m_camera.update(p_deltaTime);
 	}
 	
 	/** Touches **********************/
@@ -118,15 +127,6 @@ public class PusherGameLayer extends GameLayer
     {
 		// Override to process accelerometer events.
     	m_hero.playerControlX(accelY);
-    }
-    
-    /** Camera ***********************/
-    public void updateCamera(float p_deltaTime)
-    {
-    	CGPoint heroNewPosOnWorld = this.convertToWorldSpace(m_hero.getPosition().x, m_hero.getPosition().y);
-    	CGPoint focus = CGPoint.ccpSub(Constants.CENTER, heroNewPosOnWorld);
-    			focus = CGPoint.ccpAdd(focus, this.getPosition());
-    	this.setPosition(focus);
     }
     
     /** Obstacles ********************/
