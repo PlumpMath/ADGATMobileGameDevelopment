@@ -21,7 +21,8 @@ public class PusherGameLayer extends GameLayer
 {
 	/** Properties **********************************************************************************/
 	private PusherHero m_hero;
-	private ArrayList<StaticCircle> m_staticObjects;
+	private ArrayList<StaticCircle> m_staticCircle;
+	private ArrayList<NonStaticBox> m_nonStaticBox;
 	private CGSize m_screenSize;
 	private CCSprite m_background;
 	private Camera m_camera;
@@ -32,7 +33,7 @@ public class PusherGameLayer extends GameLayer
 		// device size
 		m_screenSize = Constants.SCREEN_SIZE;
 		
-		// create bg
+		// create bg (parallax)
 		//m_background = CCSprite.sprite("background3.jpg");
 		//m_background.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
 		//m_background.setPosition(CGPoint.ccp(m_screenSize.width/2, m_screenSize.height/2));
@@ -40,7 +41,7 @@ public class PusherGameLayer extends GameLayer
 		
 		// create hero
 		m_hero = new PusherHero("ball.png");
-		m_hero.setPosition(CGPoint.ccp(m_screenSize.width * 0.5f, m_screenSize.height * 0.5f));
+		m_hero.setPosition(CGPoint.ccp(m_screenSize.width * 0.5f, m_screenSize.height * 0.75f));
 		this.addChild(m_hero);
 		
 		// create camera
@@ -71,13 +72,41 @@ public class PusherGameLayer extends GameLayer
 		// update player
 		m_hero.update(p_deltaTime);
 		
+		/** StaticCircle Update/Collision *********************/
 		StaticCircle staticCircle;
 		// check collision hero to static objects
-		for( int i = 0; i < m_staticObjects.size(); i++ )
+		for( int i = 0; i < m_staticCircle.size(); i++ )
 		{
-			staticCircle = m_staticObjects.get(i);
+			staticCircle = m_staticCircle.get(i);
 			staticCircle.circleCollidedToHero(m_hero);
 		}
+		
+		/** NonStaticBox Update/Collision *********************/
+		NonStaticBox nonStaticBox;
+		// check collision hero to non static box
+		for( int i = 0; i < m_nonStaticBox.size(); i++ )
+		{
+			nonStaticBox = m_nonStaticBox.get(i);
+			nonStaticBox.boxCollidedToHero(m_hero);
+		}
+		
+		// update non static box
+		for( int i = 0; i < m_nonStaticBox.size(); i++ )
+		{
+			nonStaticBox = m_nonStaticBox.get(i);
+			nonStaticBox.update(p_deltaTime);
+		}
+		
+		// check for non static box collided to static circle
+		//for( int i = 0; i < m_nonStaticBox.size(); i++ )
+		//{
+		//	nonStaticBox = m_nonStaticBox.get(i);
+		//	for( int j = 0; j < m_staticCircle.size(); j++ )
+		//	{
+		//		staticCircle = m_staticCircle.get(j);
+		//		nonStaticBox.boxCollidedToStaticCircle(staticCircle);
+		//	}
+		//}
 		
 		// update camera
 		m_camera.update(p_deltaTime);
@@ -133,7 +162,7 @@ public class PusherGameLayer extends GameLayer
     public void createObstacles()
     {
     	// create static objects
-		m_staticObjects = new ArrayList<StaticCircle>();
+    	m_staticCircle = new ArrayList<StaticCircle>();
 		
 		int staticObjectCount = 6;
 		float staticObjectWidth = m_hero.g_radius * 2.0f;
@@ -150,7 +179,21 @@ public class PusherGameLayer extends GameLayer
 			staticCircle = new StaticCircle("ball.png");
 			staticCircle.setPosition(CGPoint.ccp(staticObjectX + (staticObjectWidth*i), staticObjectY));
 			this.addChild(staticCircle);
-			m_staticObjects.add(staticCircle);
+			m_staticCircle.add(staticCircle);
+		}
+		
+		// create non static box
+		m_nonStaticBox = new ArrayList<NonStaticBox>();
+		NonStaticBox box;
+		for( int i = 0; i < 5; i++ )
+		{
+			float nonStaticObjectX = m_screenSize.width * 0.6f;
+			float nonStaticObjectY = m_screenSize.height * 0.90f;
+			
+			box = new NonStaticBox("box.jpg");
+			box.setPosition(CGPoint.ccp(nonStaticObjectX + (50*i), nonStaticObjectY));
+			this.addChild(box);
+			m_nonStaticBox.add(box);
 		}
     }
 }

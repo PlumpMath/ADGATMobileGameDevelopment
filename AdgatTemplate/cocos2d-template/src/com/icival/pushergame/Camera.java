@@ -8,13 +8,15 @@ import com.icival.mobilegamedevelopment.GameLayer;
 public class Camera 
 {
 	/** Properties **********************************************************************************/
-	private CircleObject m_targetNode = null;
+	private NonStaticCircle m_targetNode = null;
 	private GameLayer m_parentNode = null;
 	private boolean m_isPaused = true;
 	private CGPoint m_creenPoints = Constants.CENTER;
+	private CGPoint m_lowerBound = CGPoint.zero();
+	private CGPoint m_higherBound = CGPoint.ccp(Constants.SCREEN_SIZE.width, Constants.SCREEN_SIZE.height);
 	
 	/** Getter/Setter *******************************************************************************/
-	public void setTargetNode(CircleObject p_targetNode)
+	public void setTargetNode(NonStaticCircle p_targetNode)
 	{
 		m_targetNode = p_targetNode;
 	}

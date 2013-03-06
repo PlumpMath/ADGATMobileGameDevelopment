@@ -8,7 +8,7 @@ import org.cocos2d.types.CGRect;
 import com.icival.mobilegamedevelopment.Constants;
 import com.icival.seperateClasses.Ball;
 
-public class CircleObject extends CCNode
+public class NonStaticCircle extends CCNode
 {
 	/** Properties **********************************************************************************/
 	/** Public ****************/
@@ -19,7 +19,7 @@ public class CircleObject extends CCNode
 	private CCSprite m_skin;
 	
 	/** Constructor *********************************************************************************/
-	public CircleObject(String p_fileName)
+	public NonStaticCircle(String p_fileName)
 	{	
 		m_skin = CCSprite.sprite(p_fileName);
 		m_skin.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
@@ -65,7 +65,7 @@ public class CircleObject extends CCNode
 		{
 			CGPoint pushBack = CGPoint.ccpSub(this.getPosition(), p_ball.getPosition());
 					pushBack = CGPoint.ccpNormalize(pushBack);
-					pushBack = CGPoint.ccpMult(pushBack, totalRadius * 1.01f);
+					pushBack = CGPoint.ccpMult(pushBack, totalRadius * 1.001f);
 					pushBack = CGPoint.ccpAdd(pushBack, p_ball.getPosition());
 			this.setPosition(pushBack);
 			g_direction = CGPoint.zero();

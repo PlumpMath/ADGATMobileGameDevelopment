@@ -7,7 +7,7 @@ import org.cocos2d.types.CGRect;
 import com.icival.mobilegamedevelopment.Constants;
 import com.icival.seperateClasses.Ball;
 
-public class StaticCircle extends CircleObject
+public class StaticCircle extends NonStaticCircle
 {
 
 	/** Properties **********************************************************************************/
@@ -39,14 +39,7 @@ public class StaticCircle extends CircleObject
 					pushBack = CGPoint.ccpMult(pushBack, totalRadius * 1.001f);
 					pushBack = CGPoint.ccpAdd(pushBack, this.getPosition());
 			p_hero.setPosition(pushBack);
-			if( pushBack.x < pushBack.y )
-			{
-				p_hero.g_direction.y = 0;
-			}
-			else
-			{
-				p_hero.g_direction.y = 0;
-			}
+			p_hero.g_direction = CGPoint.zero();
 			return true;
 		}
 		return false;

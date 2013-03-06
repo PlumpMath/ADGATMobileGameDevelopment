@@ -6,7 +6,7 @@ import org.cocos2d.types.CGRect;
 import com.icival.mobilegamedevelopment.Constants;
 import com.icival.seperateClasses.Ball;
 
-public class PusherHero extends CircleObject
+public class PusherHero extends NonStaticCircle
 {
 	/** Properties **********************************************************************************/
 	/** Public ****************/
@@ -64,7 +64,7 @@ public class PusherHero extends CircleObject
 	
 	public void playerControlX(float p_accelerometer)
 	{
-		g_direction.x += p_accelerometer;
+		g_direction.x = p_accelerometer * (Constants.SCREEN_SIZE.width/10);
 	}
 	
 	/** Protected *************/
