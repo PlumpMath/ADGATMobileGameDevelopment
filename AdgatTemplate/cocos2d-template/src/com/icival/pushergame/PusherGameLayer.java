@@ -14,6 +14,7 @@ import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.icival.mobilegamedevelopment.GameLayer;
@@ -24,9 +25,11 @@ import com.icival.pushergame.Camera;
 public class PusherGameLayer extends GameLayer
 {
 	/** Properties **********************************************************************************/
-	private PusherHero m_hero;
-	private ArrayList<StaticCircle> m_staticCircle;
-	private ArrayList<NonStaticBox> m_nonStaticBox;
+	private PusherHero 					m_hero;
+	private ArrayList<StaticCircle> 	m_staticCircles;
+	private ArrayList<NonStaticBox> 	m_nonStaticBoxes;
+	private ArrayList<StaticBox> 		m_staticBoxes;
+	
 	private CGSize m_screenSize;
 	private CCSprite m_background;
 	private Camera m_camera;
@@ -62,13 +65,21 @@ public class PusherGameLayer extends GameLayer
 		m_camera.run();
 		
 		// create gameobjects
-		// static objects
-    	m_staticCircle = new ArrayList<StaticCircle>();
-    	// non static objects
-    	m_nonStaticBox = new ArrayList<NonStaticBox>();
-		
+		// obstacles
+    	m_staticCircles 	= new ArrayList<StaticCircle>();
+    	m_nonStaticBoxes 	= new ArrayList<NonStaticBox>();
+    	m_staticBoxes		= new ArrayList<StaticBox>();
+    	
+    	// create static boxes
+    	LevelManager.createRandomLevel(0.0f, 0.0f, this);
+    	LevelManager.create001Level(Constants.SCREEN_SIZE.width*1, 0.0f, this);
+    	LevelManager.create002Level(Constants.SCREEN_SIZE.width*2, 0.0f, this);
+    	LevelManager.create003Level(Constants.SCREEN_SIZE.width*3, 0.0f, this);
+    	LevelManager.create004Level(Constants.SCREEN_SIZE.width*4, 0.0f, this);
+    	LevelManager.create005Level(Constants.SCREEN_SIZE.width*5, 0.0f, this);
+    	
 		// create obstacles
-		this.createObstacles();
+		//this.createObstacles();
 		
 		// setup touches
 		this.setIsTouchEnabled(true);
@@ -91,25 +102,34 @@ public class PusherGameLayer extends GameLayer
 		/** StaticCircle Update/Collision *********************/
 		StaticCircle staticCircle;
 		// check collision hero to static objects
-		for( int i = 0; i < m_staticCircle.size(); i++ )
+		for( int i = 0; i < m_staticCircles.size(); i++ )
 		{
-			staticCircle = m_staticCircle.get(i);
+			staticCircle = m_staticCircles.get(i);
 			staticCircle.circleCollidedToHero(m_hero);
 		}
 		
 		/** NonStaticBox Update/Collision *********************/
 		NonStaticBox nonStaticBox;
 		// check collision hero to non static box
-		for( int i = 0; i < m_nonStaticBox.size(); i++ )
+		for( int i = 0; i < m_nonStaticBoxes.size(); i++ )
 		{
-			nonStaticBox = m_nonStaticBox.get(i);
+			nonStaticBox = m_nonStaticBoxes.get(i);
 			nonStaticBox.boxCollidedToHero(m_hero);
 		}
 		
-		// update non static box
-		for( int i = 0; i < m_nonStaticBox.size(); i++ )
+		/** StaticBox Update/Collision *********************/
+		StaticBox staticBox;
+		// check collision hero to non static box
+		for( int i = 0; i < m_staticBoxes.size(); i++ )
 		{
-			nonStaticBox = m_nonStaticBox.get(i);
+			staticBox = m_staticBoxes.get(i);
+			staticBox.boxCollidedToHero(m_hero);
+		}
+		
+		// update non static box
+		for( int i = 0; i < m_nonStaticBoxes.size(); i++ )
+		{
+			nonStaticBox = m_nonStaticBoxes.get(i);
 			nonStaticBox.update(p_deltaTime);
 		}
 		
@@ -197,7 +217,7 @@ public class PusherGameLayer extends GameLayer
 			staticCircle = new StaticCircle("ball.png");
 			staticCircle.setPosition(CGPoint.ccp(staticObjectX + (staticObjectWidth*i), staticObjectY));
 			this.addChild(staticCircle);
-			m_staticCircle.add(staticCircle);
+			m_staticCircles.add(staticCircle);
 		}
 		
 		NonStaticBox box;
@@ -209,7 +229,15 @@ public class PusherGameLayer extends GameLayer
 			box = new NonStaticBox("box.jpg");
 			box.setPosition(CGPoint.ccp(nonStaticObjectX + (50*i), nonStaticObjectY));
 			this.addChild(box);
-			m_nonStaticBox.add(box);
+			m_nonStaticBoxes.add(box);
 		}
     }
+    
+    /** Push GameObjects *************/
+	public void pushStaticBox(StaticBox p_staticBox)
+	{
+		this.addChild(p_staticBox);
+		m_staticBoxes.add(p_staticBox);
+	}
+    
 }
