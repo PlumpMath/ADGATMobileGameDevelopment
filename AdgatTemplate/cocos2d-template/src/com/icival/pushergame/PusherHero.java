@@ -71,19 +71,19 @@ public class PusherHero extends NonStaticCircle
 	@Override
 	protected void limitBorders(CGPoint p_newPosition)
 	{
-		// limit top y
-		if( p_newPosition.y < (0 + g_radius) )
-		{
-			p_newPosition.y = (0 + g_radius);
-			g_direction.y = 0.0f;
-		}
-		
-		// limit bottom y
-		if( p_newPosition.y > (Constants.SCREEN_SIZE.height - g_radius) )
-		{
-			p_newPosition.y = (Constants.SCREEN_SIZE.height - g_radius);
-			g_direction.y = 0.0f;
-		}
+//		// limit top y
+//		if( p_newPosition.y < (0 + g_radius) )
+//		{
+//			p_newPosition.y = (0 + g_radius);
+//			g_direction.y = 0.0f;
+//		}
+//		
+//		// limit bottom y
+//		if( p_newPosition.y > (Constants.SCREEN_SIZE.height - g_radius) )
+//		{
+//			p_newPosition.y = (Constants.SCREEN_SIZE.height - g_radius);
+//			g_direction.y = 0.0f;
+//		}
 	}
 	
 	/** Private ***************/
