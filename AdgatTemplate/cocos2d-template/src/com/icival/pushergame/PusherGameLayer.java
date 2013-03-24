@@ -2,9 +2,13 @@ package com.icival.pushergame;
 
 import java.util.ArrayList;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.cocos2d.events.CCTouchDispatcher;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
+import org.cocos2d.opengl.CCTexture2D;
+import org.cocos2d.types.CCTexParams;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
@@ -33,11 +37,17 @@ public class PusherGameLayer extends GameLayer
 		// device size
 		m_screenSize = Constants.SCREEN_SIZE;
 		
+		// repeat image
+		CCTexParams params = new CCTexParams(GL10.GL_LINEAR,GL10.GL_LINEAR,GL10.GL_REPEAT,GL10.GL_REPEAT);
+		CCTexture2D.setTexParameters(params);
+		//m_background.getTexture().setTexParameters(params);
+		
 		// create bg (parallax)
-		//m_background = CCSprite.sprite("background3.jpg");
-		//m_background.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
-		//m_background.setPosition(CGPoint.ccp(m_screenSize.width/2, m_screenSize.height/2));
-		//this.addChild(m_background);
+		m_background = CCSprite.sprite("middleground.png");
+		m_background.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
+		m_background.setPosition(CGPoint.ccp(m_screenSize.width/2, m_screenSize.height/2));
+		this.addChild(m_background);
+		
 		
 		// create hero
 		m_hero = new PusherHero("ball.png");
@@ -50,6 +60,12 @@ public class PusherGameLayer extends GameLayer
 		m_camera.setParentNode(this);
 		//m_camera.setScreenPoints(CGPoint.ccp(100, 100));
 		m_camera.run();
+		
+		// create gameobjects
+		// static objects
+    	m_staticCircle = new ArrayList<StaticCircle>();
+    	// non static objects
+    	m_nonStaticBox = new ArrayList<NonStaticBox>();
 		
 		// create obstacles
 		this.createObstacles();
@@ -159,18 +175,20 @@ public class PusherGameLayer extends GameLayer
     }
     
     /** Obstacles ********************/
+    public void createStateA(float p_initialX)
+    {
+    	
+    }
+    
     public void createObstacles()
     {
-    	// create static objects
-    	m_staticCircle = new ArrayList<StaticCircle>();
-		
 		int staticObjectCount = 6;
 		float staticObjectWidth = m_hero.g_radius * 2.0f;
 		float staticObjectTotalWidth = staticObjectWidth * staticObjectCount;
 		float initX = Constants.CENTER.x - ((staticObjectTotalWidth-staticObjectWidth)/2);
 		StaticCircle staticCircle;
 		
-		// create multiple hero
+		// create multiple staticobject
 		for( int i = 0; i < staticObjectCount; i++ )
 		{
 			float staticObjectX = initX;
@@ -182,8 +200,6 @@ public class PusherGameLayer extends GameLayer
 			m_staticCircle.add(staticCircle);
 		}
 		
-		// create non static box
-		m_nonStaticBox = new ArrayList<NonStaticBox>();
 		NonStaticBox box;
 		for( int i = 0; i < 5; i++ )
 		{
