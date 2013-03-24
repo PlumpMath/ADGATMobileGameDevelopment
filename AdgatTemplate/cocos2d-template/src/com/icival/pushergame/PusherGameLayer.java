@@ -29,6 +29,7 @@ public class PusherGameLayer extends GameLayer
 	private ArrayList<StaticCircle> 	m_staticCircles;
 	private ArrayList<NonStaticBox> 	m_nonStaticBoxes;
 	private ArrayList<StaticBox> 		m_staticBoxes;
+	private ArrayList<MovingBox>		m_movingBoxes;
 	
 	private CGSize m_screenSize;
 	private CCSprite m_background;
@@ -61,7 +62,7 @@ public class PusherGameLayer extends GameLayer
 		m_camera = new Camera();
 		m_camera.setTargetNode(m_hero);
 		m_camera.setParentNode(this);
-		//m_camera.setScreenPoints(CGPoint.ccp(100, 100));
+		m_camera.setScreenPoints(CGPoint.ccp(100, 100));
 		m_camera.run();
 		
 		// create gameobjects
@@ -69,17 +70,39 @@ public class PusherGameLayer extends GameLayer
     	m_staticCircles 	= new ArrayList<StaticCircle>();
     	m_nonStaticBoxes 	= new ArrayList<NonStaticBox>();
     	m_staticBoxes		= new ArrayList<StaticBox>();
+    	m_movingBoxes		= new ArrayList<MovingBox>();
     	
     	// create static boxes
-    	LevelManager.createRandomLevel(0.0f, 0.0f, this);
+    	//LevelManager.createRandomLevel(0.0f, 0.0f, this);
+    	LevelManager.create001Level(0.0f, 0.0f, this);
     	LevelManager.create001Level(Constants.SCREEN_SIZE.width*1, 0.0f, this);
     	LevelManager.create002Level(Constants.SCREEN_SIZE.width*2, 0.0f, this);
     	LevelManager.create003Level(Constants.SCREEN_SIZE.width*3, 0.0f, this);
     	LevelManager.create004Level(Constants.SCREEN_SIZE.width*4, 0.0f, this);
     	LevelManager.create005Level(Constants.SCREEN_SIZE.width*5, 0.0f, this);
     	
-		// create obstacles
-		//this.createObstacles();
+    	// check limitations
+    	for( int i = 6; i < 10; i++ )
+    	{
+    		LevelManager.create001Level(Constants.SCREEN_SIZE.width*i, 0.0f, this);
+    	}
+    	
+    	// create create moving boxes
+    	MovingBox movingBox = null;
+    	int pattern1[] = {MovingBox.GO_STILL, MovingBox.GO_LEFT, MovingBox.GO_STILL, MovingBox.GO_RIGHT};
+    	movingBox = new MovingBox("brickA.jpg", pattern1 );
+    	movingBox.setPosition(Constants.CENTER);
+    	this.pushMovingBox(movingBox);
+    	
+    	int pattern2[] = {MovingBox.GO_STILL, MovingBox.GO_DOWN, MovingBox.GO_STILL, MovingBox.GO_UP};
+    	movingBox = new MovingBox("brickA.jpg", pattern2 );
+    	movingBox.setPosition(CGPoint.ccp(Constants.SCREEN_SIZE.width, Constants.CENTER.y+30));
+    	this.pushMovingBox(movingBox);
+    	
+    	int pattern3[] = {MovingBox.GO_DOWN, MovingBox.GO_RIGHT, MovingBox.GO_UP, MovingBox.GO_LEFT};
+    	movingBox = new MovingBox("brickA.jpg", pattern3 );
+    	movingBox.setPosition(CGPoint.ccp(Constants.SCREEN_SIZE.width+Constants.CENTER.x, Constants.CENTER.y+30));
+    	this.pushMovingBox(movingBox);
 		
 		// setup touches
 		this.setIsTouchEnabled(true);
@@ -108,15 +131,6 @@ public class PusherGameLayer extends GameLayer
 			staticCircle.circleCollidedToHero(m_hero);
 		}
 		
-		/** NonStaticBox Update/Collision *********************/
-		NonStaticBox nonStaticBox;
-		// check collision hero to non static box
-		for( int i = 0; i < m_nonStaticBoxes.size(); i++ )
-		{
-			nonStaticBox = m_nonStaticBoxes.get(i);
-			nonStaticBox.boxCollidedToHero(m_hero);
-		}
-		
 		/** StaticBox Update/Collision *********************/
 		StaticBox staticBox;
 		// check collision hero to non static box
@@ -126,23 +140,23 @@ public class PusherGameLayer extends GameLayer
 			staticBox.boxCollidedToHero(m_hero);
 		}
 		
-		// update non static box
+		/** Non StaticBox Update/Collision *****************/
+		NonStaticBox nonStaticBox;
 		for( int i = 0; i < m_nonStaticBoxes.size(); i++ )
 		{
 			nonStaticBox = m_nonStaticBoxes.get(i);
 			nonStaticBox.update(p_deltaTime);
 		}
 		
-		// check for non static box collided to static circle
-		//for( int i = 0; i < m_nonStaticBox.size(); i++ )
-		//{
-		//	nonStaticBox = m_nonStaticBox.get(i);
-		//	for( int j = 0; j < m_staticCircle.size(); j++ )
-		//	{
-		//		staticCircle = m_staticCircle.get(j);
-		//		nonStaticBox.boxCollidedToStaticCircle(staticCircle);
-		//	}
-		//}
+		/** MovingBoxes Update/Collision *******************/
+		MovingBox movingBox;
+		for( int i = 0; i < m_movingBoxes.size(); i++ )
+		{
+			movingBox = m_movingBoxes.get(i);
+			movingBox.update(p_deltaTime);
+			movingBox.boxCollidedToHero(m_hero);
+		}
+		
 		
 		// update camera
 		m_camera.update(p_deltaTime);
@@ -194,50 +208,17 @@ public class PusherGameLayer extends GameLayer
     	m_hero.playerControlX(accelY);
     }
     
-    /** Obstacles ********************/
-    public void createStateA(float p_initialX)
-    {
-    	
-    }
-    
-    public void createObstacles()
-    {
-		int staticObjectCount = 6;
-		float staticObjectWidth = m_hero.g_radius * 2.0f;
-		float staticObjectTotalWidth = staticObjectWidth * staticObjectCount;
-		float initX = Constants.CENTER.x - ((staticObjectTotalWidth-staticObjectWidth)/2);
-		StaticCircle staticCircle;
-		
-		// create multiple staticobject
-		for( int i = 0; i < staticObjectCount; i++ )
-		{
-			float staticObjectX = initX;
-			float staticObjectY = m_screenSize.height * 0.5f;
-			
-			staticCircle = new StaticCircle("ball.png");
-			staticCircle.setPosition(CGPoint.ccp(staticObjectX + (staticObjectWidth*i), staticObjectY));
-			this.addChild(staticCircle);
-			m_staticCircles.add(staticCircle);
-		}
-		
-		NonStaticBox box;
-		for( int i = 0; i < 5; i++ )
-		{
-			float nonStaticObjectX = m_screenSize.width * 0.6f;
-			float nonStaticObjectY = m_screenSize.height * 0.90f;
-			
-			box = new NonStaticBox("box.jpg");
-			box.setPosition(CGPoint.ccp(nonStaticObjectX + (50*i), nonStaticObjectY));
-			this.addChild(box);
-			m_nonStaticBoxes.add(box);
-		}
-    }
-    
     /** Push GameObjects *************/
 	public void pushStaticBox(StaticBox p_staticBox)
 	{
 		this.addChild(p_staticBox);
 		m_staticBoxes.add(p_staticBox);
+	}
+	
+	public void pushMovingBox(MovingBox p_movingBox)
+	{
+		this.addChild(p_movingBox);
+		m_movingBoxes.add(p_movingBox);
 	}
     
 }
