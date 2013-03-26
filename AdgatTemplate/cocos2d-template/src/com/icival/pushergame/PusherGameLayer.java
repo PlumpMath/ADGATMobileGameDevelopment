@@ -1,21 +1,12 @@
 package com.icival.pushergame;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import org.cocos2d.utils.PlistParser;
-import org.cocos2d.actions.base.CCRepeatForever;
-import org.cocos2d.actions.interval.CCAnimate;
 import org.cocos2d.events.CCTouchDispatcher;
-import org.cocos2d.nodes.CCAnimation;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
-import org.cocos2d.nodes.CCTextureCache;
-import org.cocos2d.nodes.CCSpriteFrame;
-import org.cocos2d.nodes.CCSpriteFrameCache;
 import org.cocos2d.opengl.CCTexture2D;
 import org.cocos2d.types.CCTexParams;
 import org.cocos2d.types.CGPoint;
@@ -51,15 +42,15 @@ public class PusherGameLayer extends GameLayer
 		m_screenSize = Constants.SCREEN_SIZE;
 		
 		// repeat image
-		//CCTexParams params = new CCTexParams(GL10.GL_LINEAR,GL10.GL_LINEAR,GL10.GL_REPEAT,GL10.GL_REPEAT);
-		//CCTexture2D.setTexParameters(params);
+		CCTexParams params = new CCTexParams(GL10.GL_LINEAR,GL10.GL_LINEAR,GL10.GL_REPEAT,GL10.GL_REPEAT);
+		CCTexture2D.setTexParameters(params);
 		//m_background.getTexture().setTexParameters(params);
 		
 		// create bg (parallax)
-		//m_background = CCSprite.sprite("middleground.png");
-		//m_background.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
-		//m_background.setPosition(CGPoint.ccp(m_screenSize.width/2, m_screenSize.height/2));
-		//this.addChild(m_background);
+		m_background = CCSprite.sprite("middleground.png");
+		m_background.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
+		m_background.setPosition(CGPoint.ccp(m_screenSize.width/2, m_screenSize.height/2));
+		this.addChild(m_background);
 		
 		
 		// create hero
@@ -121,27 +112,6 @@ public class PusherGameLayer extends GameLayer
 		
 		// setup accelerometer
 		this.setIsAccelerometerEnabled(true);
-		
-		// sample spritesheet
-		CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFrames("balls.plist");
-		CCSpriteFrame frame = CCSpriteFrameCache.sharedSpriteFrameCache().getSpriteFrame("ball_1.png");
-		
-		// create your sprite
-		CCSprite ballAnimation = CCSprite.sprite(frame);
-		ballAnimation.setPosition(Constants.CENTER);
-		this.addChild(ballAnimation);
-		
-		// create animation for your sprite
-		CCSpriteFrame imgA = CCSpriteFrameCache.sharedSpriteFrameCache().getSpriteFrame("ball_2.png");
-		CCSpriteFrame imgB = CCSpriteFrameCache.sharedSpriteFrameCache().getSpriteFrame("ball_3.png");
-		CCSpriteFrame imgC = CCSpriteFrameCache.sharedSpriteFrameCache().getSpriteFrame("ball_1.png");
-		CCAnimation animation = CCAnimation.animation("",0.5f);
-					animation.addFrame(imgA);
-					animation.addFrame(imgB);
-					animation.addFrame(imgC);
-		CCAnimate animate = CCAnimate.action(0.5f,animation,false);
-		CCRepeatForever foreverAnimation = CCRepeatForever.action(animate);
-		ballAnimation.runAction(foreverAnimation);
 	}
 	
 	/** Methods *************************************************************************************/

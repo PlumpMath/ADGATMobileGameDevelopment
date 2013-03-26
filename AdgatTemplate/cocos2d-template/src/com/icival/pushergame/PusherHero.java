@@ -54,7 +54,6 @@ public class PusherHero extends NonStaticCircle
 		
 		// test: increate automove by 10% relatively to delta time
 		//m_autoMove.x *= 1.01f;
-		
 	}
 	
 	public void playerControl(CGPoint p_touchPoint)
