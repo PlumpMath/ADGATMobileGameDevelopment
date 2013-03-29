@@ -69,7 +69,7 @@ public class PusherGameLayer extends GameLayer
 		
 		// create camera
 		m_camera = new Camera();
-		m_camera.setTargetNode(m_hero);
+		m_camera.setTargetNode(null);
 		m_camera.setParentNode(this);
 		m_camera.setScreenPoints(CGPoint.ccp(100, 100));
 		m_camera.run();
@@ -84,11 +84,11 @@ public class PusherGameLayer extends GameLayer
     	// create static boxes
     	//LevelManager.createRandomLevel(0.0f, 0.0f, this);
     	LevelManager.create001Level(0.0f, 0.0f, this);
-    	LevelManager.create001Level(Constants.SCREEN_SIZE.width*1, 0.0f, this);
-    	LevelManager.create002Level(Constants.SCREEN_SIZE.width*2, 0.0f, this);
-    	LevelManager.create003Level(Constants.SCREEN_SIZE.width*3, 0.0f, this);
-    	LevelManager.create004Level(Constants.SCREEN_SIZE.width*4, 0.0f, this);
-    	LevelManager.create005Level(Constants.SCREEN_SIZE.width*5, 0.0f, this);
+    	//LevelManager.create001Level(Constants.SCREEN_SIZE.width*1, 0.0f, this);
+    	//LevelManager.create002Level(Constants.SCREEN_SIZE.width*2, 0.0f, this);
+    	//LevelManager.create003Level(Constants.SCREEN_SIZE.width*3, 0.0f, this);
+    	//LevelManager.create004Level(Constants.SCREEN_SIZE.width*4, 0.0f, this);
+    	//LevelManager.create005Level(Constants.SCREEN_SIZE.width*5, 0.0f, this);
     	
     	// check limitations
     	for( int i = 6; i < 10; i++ )
@@ -96,6 +96,7 @@ public class PusherGameLayer extends GameLayer
     		LevelManager.create001Level(Constants.SCREEN_SIZE.width*i, 0.0f, this);
     	}
     	
+    	/*
     	// create create moving boxes
     	MovingBox movingBox = null;
     	int pattern1[] = {MovingBox.GO_STILL, MovingBox.GO_LEFT, MovingBox.GO_STILL, MovingBox.GO_RIGHT};
@@ -112,7 +113,8 @@ public class PusherGameLayer extends GameLayer
     	movingBox = new MovingBox("brickA.jpg", pattern3 );
     	movingBox.setPosition(CGPoint.ccp(Constants.SCREEN_SIZE.width+Constants.CENTER.x, Constants.CENTER.y+30));
     	this.pushMovingBox(movingBox);
-		
+		 */
+    	
 		// setup touches
 		this.setIsTouchEnabled(true);
 		
@@ -126,6 +128,7 @@ public class PusherGameLayer extends GameLayer
 		CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFrames("balls.plist");
 		CCSpriteFrame frame = CCSpriteFrameCache.sharedSpriteFrameCache().getSpriteFrame("ball_1.png");
 		
+		/*
 		// create your sprite
 		CCSprite ballAnimation = CCSprite.sprite(frame);
 		ballAnimation.setPosition(Constants.CENTER);
@@ -142,6 +145,7 @@ public class PusherGameLayer extends GameLayer
 		CCAnimate animate = CCAnimate.action(0.5f,animation,false);
 		CCRepeatForever foreverAnimation = CCRepeatForever.action(animate);
 		ballAnimation.runAction(foreverAnimation);
+		 */
 	}
 	
 	/** Methods *************************************************************************************/
@@ -201,7 +205,7 @@ public class PusherGameLayer extends GameLayer
 		touchPoint = CCDirector.sharedDirector().convertToGL(touchPoint);
 		
 		// player actions
-		m_hero.playerControl(touchPoint);
+		//m_hero.playerControl(touchPoint);
 		
         return CCTouchDispatcher.kEventHandled;
     }
@@ -236,6 +240,7 @@ public class PusherGameLayer extends GameLayer
     {
 		// Override to process accelerometer events.
     	m_hero.playerControlX(accelY);
+    	m_hero.playerControlY(-accelX);
     }
     
     /** Push GameObjects *************/

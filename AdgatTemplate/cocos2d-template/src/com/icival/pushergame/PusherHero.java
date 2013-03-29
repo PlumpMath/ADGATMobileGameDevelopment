@@ -28,8 +28,9 @@ public class PusherHero extends NonStaticCircle
 	@Override
 	public void update(float p_deltaTime)
 	{
+		// turn off gravity
 		// update gravity on the velocity vector of your object
-		g_direction.y -= Constants.GRAVITY * p_deltaTime;
+		//g_direction.y -= Constants.GRAVITY * p_deltaTime;
 		
 		// compute for new position
 		CGPoint newPosition = this.getPosition();
@@ -76,7 +77,13 @@ public class PusherHero extends NonStaticCircle
 	public void playerControlX(float p_accelerometer)
 	{
 		// comment for automove
-		g_direction.x = p_accelerometer * (Constants.SCREEN_SIZE.width/10);
+		g_direction.x = p_accelerometer * (Constants.SCREEN_SIZE.width/20);
+	}
+	
+	public void playerControlY(float p_accelerometer)
+	{
+		// comment for automove
+		g_direction.y = p_accelerometer * (Constants.SCREEN_SIZE.width/20);
 	}
 	
 	public boolean isInRange(CGPoint p_point)
